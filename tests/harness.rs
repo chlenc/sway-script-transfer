@@ -24,11 +24,14 @@ async fn main() {
     let amount0 = mint_amout / 2;
     let contract_id = ContractId::from_str(BASE_ASSET_ID.to_string().as_str()).unwrap();
     let instance = Script::new(alice.clone(), "out/debug/script_transfer.bin");
-    instance
+    let receipts = instance
         .main(amount0, contract_id, Address::from(bob.address()))
         .call()
-        .await
-        .unwrap();
+        .await;
+
+    dbg!(&receipts);
+
+    receipts.unwrap();
 
     assert_eq!(
         alice.get_asset_balance(&BASE_ASSET_ID).await.unwrap(),
