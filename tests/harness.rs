@@ -26,6 +26,7 @@ async fn main() {
     let instance = Script::new(alice.clone(), "out/debug/script_transfer.bin");
     let receipts = instance
         .main(amount0, contract_id, Address::from(bob.address()))
+        .tx_params(TxParameters::default().set_gas_price(1))
         .call()
         .await;
 
